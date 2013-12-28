@@ -16,12 +16,13 @@ but uses separate histories per output.
 
 [Awesome]: http://awesome.naquadah.org/
 
-The script needs to be started after i3 has loaded. I run the following command,
-but there are of course more than one way to run it. If you can figure out a
-clever way to load it from inside the i3 config, please let me know.
+The script runs in the background and grabs these keys separate from ``i3``.
+Beware of conflicting keybindings inside ``~/.i3/config`` (see below). To use it
+simply put the following at the bottom of your i3 config (depending on where you
+have the script):
 
 ```
-i3 exec ~/i3-scripts/workspace_switcher.pl
+exec ~/i3-scripts/workspace_switcher.pl
 ```
 
 ### Keybindings
