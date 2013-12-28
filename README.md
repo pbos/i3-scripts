@@ -24,6 +24,17 @@ clever way to load it from inside the i3 config, please let me know.
 i3 exec ~/i3-scripts/workspace_switcher.pl
 ```
 
+### Keybindings
+
+``workspace_switcher.pl`` uses keys ``$mod (+ shift) + 0..9``. By default $mod
+is ``Super_L``, the left Windows key, because that's what I use. Feel free to
+change this keybinding inside the script.
+
+By default however, ``$mod + 0..9`` are taken by i3, causing the script to fail
+after doing GrabKey, eventually barfing an X11 error message. Make sure to
+comment out these keys inside your i3 config. (Comment rather than remove so you
+can easily get them back should anything fail unexpectedly.)
+
 ### Dependencies
 
 The workspace switcher needs at least Perl modules [AnyEvent::I3] and
