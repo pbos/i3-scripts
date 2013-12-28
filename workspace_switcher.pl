@@ -11,9 +11,11 @@ use strict;
 use warnings;
 
 use constant {
-# ModKeyMask => (1 << 3),  # Alt_L
-  ModKeyMask => (1 << 6),  # Super_L
-  ShiftMask  => (1 << 0),  # Shift
+# ModKeyMask  => (1 << 3),  # Mod1Mask (Alt)
+  ModKeyMask  => (1 << 6),  # Mod4Mask (Super)
+  ShiftMask   => (1 << 0),
+  CapsMask    => (1 << 1),  # LockMask
+  NumLockMask => (1 << 4),  # Mod2Mask
 };
 
 # Set up i3 IPC.
@@ -27,10 +29,13 @@ my $mask = $x->pack_event_mask('KeyPress');
 $x->ChangeWindowAttributes($x->root, event_mask => $mask);
 $x->event_handler('queue');
 
-# Register $mod (+ shift) + 0..9.
+# Register $mod (+ shift) + 0..9 with all combinations of NumLock and CapsLock.
 for my $i (0 .. 9) {
-  $x->GrabKey(10 + $i, ModKeyMask, $x->root, 1, 'Asynchronous', 'Asynchronous');
-  $x->GrabKey(10 + $i, ModKeyMask | ShiftMask, $x->root, 1, 'Asynchronous', 'Asynchronous');
+  for my $mod (ModKeyMask, ModKeyMask | ShiftMask) {
+    for my $lock_mask (0, CapsMask, NumLockMask, CapsMask | NumLockMask) {
+      $x->GrabKey(10 + $i, $mod | $lock_mask, $x->root, 1, 'Asynchronous', 'Asynchronous');
+    }
+  }
 }
 
 # Find current output.
