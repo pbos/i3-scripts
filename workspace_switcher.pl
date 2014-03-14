@@ -38,6 +38,15 @@ for my $i (0 .. 9) {
   }
 }
 
+# Set default workspaces.
+my $outputs = i3->get_outputs->recv;
+for my $i (0 .. @{$outputs}-1) {
+  my $output = @$outputs[$i];
+  next unless @$output{active};
+  i3->command("focus output " . @$output{name});
+  i3->command("workspace 1 [" . ($i + 1) . "]");
+}
+
 # Find current output.
 sub current_output() {
   my $outputs = i3->get_outputs->recv;
